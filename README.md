@@ -27,3 +27,19 @@ In order to test everything is working, port forward using
     kubectl port-forward prometheus 9123:9090
 
 and open <http://localhost:9123>.
+
+### Updating the config map
+
+Use this trick to update a configmap created from a file:
+
+```
+kubectl create configmap prometheus-config --from-file=prometheus.yml --dry-run -o yaml | kubectl apply -f -
+```
+
+Then connect to the prometheus server and send a SIGHUP to the prometheus process to get it to pick up the new config - wait for a minute, because it takes a while for the configmap change to be reflected in the pod (this is a kubernetes limitation).
+
+```
+kubectl exec -it prometheus sh
+kill -1 1
+exit
+```
