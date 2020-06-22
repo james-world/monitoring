@@ -29,6 +29,7 @@ namespace Acme
         {
             services.AddControllers();
             services.AddSingleton(new ProductCatalog());
+            services.AddHostedService<Restocker>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

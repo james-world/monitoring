@@ -1,5 +1,8 @@
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Acme.Features.Orders
 {
@@ -29,5 +32,14 @@ namespace Acme.Features.Orders
             }
         }
 
+        public void Restock(string product, int amount)
+        {
+            productStock.AddOrUpdate(product, 1000, (_, __) => 1000);
+        }
+
+        public string[] GetProducts()
+        {
+            return productStock.Keys.ToArray();
+        }
     }
 }
