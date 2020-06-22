@@ -22,7 +22,8 @@ docker run `
   --network demo `
   --name grafana `
   --rm `
-  grafana/grafana
+  jamesworld/acme-grafana:1.0
+#  grafana/grafana
 
 Start-Process "http://localhost:9090"
 Write-Host "Press any key to stop demo"
