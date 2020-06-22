@@ -15,6 +15,9 @@
 *.userosscache
 *.sln.docstates
 
+# JMeter logs
+jmeter.log
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
