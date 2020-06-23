@@ -6,3 +6,13 @@ Accept: application/json
   "product": "Sprocket",
   "amount": 10
 }
+
+###
+POST http://localhost:5000/orders/
+Content-Type: application/json
+Accept: application/json
+
+{
+  "product": "NotAProduct",
+  "amount": 1
+}
