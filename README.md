@@ -10,9 +10,13 @@ This first demo runs up a docker container with local bind mounts to map a simpl
 
 The minimal configuration sets a global time interval for scraping jobs, and a single job to scrape prometheus itself.
 
+Execute `.\run_demo.ps1` from a powershell console to fire up a prometheus container and open a browser an the prometheus UI.
+
 ## Demo2 - Installing and Running Prometheus in Kubernetes
 
 Here we use a pod spec that uses an emptyDir volume mount for the tsdb. The emptyDir volume type is a folder provisioned in local node storage which is deleted when the pod is destoyed. The configuration is passed via a config map.
+
+Prerequisits: kubectl is installed and pointing to a valid cluster (minikube/docker desktop is fine)
 
 To configure this from the Demo2 folder run:
 
@@ -45,6 +49,8 @@ exit
 ```
 
 ## Demo3 - Adding a Pod that publishes metrics
+
+Prerequisits: kubectl is installed and pointing to a valid cluster (minikube/docker desktop is fine)
 
 The Demo3 folder contains a simple DotNet web api project - it's the standard starter template created with `dotnet new webapi`.
 
@@ -84,6 +90,10 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 
 The `WeatherForecastController.cs` has been altered to capture a Counter metric.
 
+Build the docker container:
+
+- `docker build -t jamesworld\monitoring-dotnetsample:1.0 .\Demo3\src\DotNetSample\.`
+
 ## Demo 4 - A slightly more serious Kuberbetes deployment
 
 Using a monitoring namespace, cluster role and scrape configs.
@@ -91,3 +101,25 @@ Using a monitoring namespace, cluster role and scrape configs.
 - `prometheus_namespace.yaml` defines a monitoring namespace and cluster role and cluster role binding for the prometheus service. Deploy with `kubectl apply -f prometheus_namespace.yaml`.
 - Updated configuration in `prometheus.yml` ensures only pods carrying the `prometheus.io/scrape` annotation are collected. Deploy this with `kubectl crete configmap prometheus-config -n monitoring --from-file=prometheus.yml --dry-run -o yaml | kubectl apply -f -`
 - `promethues_deployment.yaml` is a deployment of the kube pod into the monitoring namespace. `kubectl apply -f prometheus_deployment.yaml` takes care of that.
+
+## Demo 5 - The Stock App, with Prometheus and Grafana
+
+Includes:
+
+- A simple `ASP.NET Core 3.1` app that makes use of the `prometheus-net.AspNetCore` library to expose a metrics endpoint and a custom `product_stock_levels` Prometheus Gauge
+- A grafana instance with pre-configured dashboards drawing from a prometheus instance.
+- A jmeter load test to exercise the app.
+
+Prerequists:
+
+- To run the load tests, jmeter should be installed
+- To use the `SampleApiCalls.rest` to send manual requests, include the Visual Studio Code `REST Client` plugin.
+- Docker is installed
+- Create a local named docker network with `docker network create demo`
+
+Build the docker containers:
+
+- `docker build -t jamesworld\acme:1.0 .\Demo5\src\Acme\.`
+- `docker build -t jamesworld\acme:1.0 .\Demo5\src\Grafana\.`
+
+Run `.\Demo5\run_demo.ps1` from a powershell prompt to start the docker containers
