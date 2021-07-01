@@ -1,6 +1,6 @@
 # Monitoring and Metrics
 
-**An updated demo can be found in the james-world/monitoring repo - leaving this here to preserve context from recorded demos, but the new repo uses docker-compose and is much easier to run up.**
+**An updated demo can be found in the james-world/monitoring-demo repo - leaving this here to preserve context from recorded demos, but the new repo uses docker-compose and is much easier to run up.**
 
 Demos accompanying the brown bag talk of the same name.
 
